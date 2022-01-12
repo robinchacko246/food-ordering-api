@@ -1,0 +1,45 @@
+clone:
+  depth: full
+pipelines:
+  default:
+    - step:
+        caches:
+          - node
+        script: 
+          # This gets executed on every push by a developer
+          - npm install
+          - npm test
+  branches:
+    development:
+      - step:
+          caches:
+            - node
+          script:
+            # This gets executed when merging a PR to dev branch
+            - npm install
+            - npm test
+# We need to compile code, code is typically stored in
+            # a destination directory.  
+            # Replace with your own command
+            - npm run build:staging
+# We need to commit build in the image before pushing
+            - git add -A
+            - git config --global user.email "user@example.com"
+            - git config --global user.name "My User"
+            - git commit -m "staging build"
+# Finally, we push to Heroku
+            - git push -f https://heroku:3266371b-8f27-48ed-88f0-41b5c42675c9@git.heroku.com/dev.git development:master
+    master:
+      - step:
+          caches:
+            - node
+          script:
+            # This gets executed when merging a PR to master branch
+            - npm install
+            - npm test
+            - npm run build:production # or your build cmd for prod
+            - git add -A
+            - git config --global user.email "user@example.com"
+            - git config --global user.name "My User"
+            - git commit -m "production build"
+            - git push -f https://heroku:3266371b-8f27-48ed-88f0-41b5c42675c9@git.heroku.com/prod.git master
