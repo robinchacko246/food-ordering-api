@@ -69,8 +69,15 @@ module.exports = {
     },
     update:async(req,res)=>{
 
-        console.log(req.user);
-        return res.status(200).json({ meessage: "User updated successfully" });
+        var query = { '_id': req.body._id };
+       
+
+        User.findOneAndUpdate(query, req.body, { upsert: true }, function (err, doc) {
+            if (err) return res.send(500, { error: err });
+            return res.send('Succesfully saved.');
+        });
+
+        
 
     }
     ,
