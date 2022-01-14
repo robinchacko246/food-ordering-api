@@ -37,13 +37,13 @@ passport.use(new jwtStatergy({
 passport.use(new localStatergy({
     passReqToCallback:true,
     usernameField: 'username'
-}, async  ( username , password, done) =>{
+}, async  (req, username , password, done) =>{
     
     try {
-        console.log("username",username);
+       
         // find the user  from given email
-        const user = await User.findOne({ username });
-
+        const user = await User.findOne({ email:username });
+        console.log("user",user);
         // if not found  handle it 
         if(!user)
         {
@@ -72,6 +72,7 @@ passport.use(new localStatergy({
          done(null , user);
         
     } catch (error) {
+        console.log(error);
         done(error , false);
     }
     
