@@ -8,7 +8,7 @@ var router = express.Router();
 
 
 
-router.get('/get-products',passportJwtOAuth,productController.Products );
+router.get('/get-products',productController.Products );
 router.get('/:id',passportJwtOAuth,productController.getProduct)
 
 module.exports = router;
