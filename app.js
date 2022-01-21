@@ -7,6 +7,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var productRouter = require('./routes/products');
 var orderRouter = require('./routes/orders');
+var eventRouter = require('./routes/events');
+
 
 const {globalVariables,mongoDbUrl, PORT} = require('./config/config');
 
@@ -54,6 +56,7 @@ app.use((req, res, next) => {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', productRouter);
+app.use('/events', eventRouter);
 app.use('/orders', orderRouter);
 
 
